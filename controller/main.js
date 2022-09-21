@@ -9,24 +9,10 @@ exports.home = (req,res,next)=>{
 exports.mostLikeTeach = async(req,res,next) => {
     try{
 
-    //     const data = await teachFavList.aggregate([ 
-    //         {
-    //      $max : "$likes",   
-    //     $group : { 
-    //         _id : "$teachId",
-    //         stdIdsList : "$stdIdsList",
-    //         mostLike : { $match : "$likes"}
-    //     }
-    // }
-    // ]);
-
-    const data = await teachFavList.find();
-
-         data.sort((a,b)=>{
-            return b.count - a.count;
-         })
-         //console.log(data);
-            
+        const data = await teachFavList.aggregate([
+            {$sort : {count:1}}
+        ])
+      
          res.status(200).json({
             status : true,
             message : "Found the Most Liked Teacher",
